@@ -1,0 +1,56 @@
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg " th:fragment="header" style="background-color: #66e590;">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" th:href="@{/homepage}">AgroMart</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link"  href="#" th:href="@{/homepage}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" th:href="@{/profile}">My Profile</a>
+        </li>
+        <div sec:authorize="!hasRole('ROLE_CIVILIAN')">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            My Offers
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            
+            <div sec:authorize="hasRole('ROLE_PRODUCER')">
+            <li><a class="dropdown-item" th:href="@{/CivilOffers}" >Civilian Offers</a></li>
+            </div>
+
+            <div sec:authorize="hasRole('ROLE_PRODUCER') or hasRole('ROLE_BUYER')">
+            <li><a class="dropdown-item" href="#" th:href="@{/BuyerOffers}">Buyer Offers</a></li>
+            </div>
+
+            <div sec:authorize="hasRole('ROLE_PRODUCER')">
+            <li><a class="dropdown-item" href="#" th:href="@{/BuyerOffers}">Claimed Offers</a></li> <!-- NEEDS TO CHANGE TO MAP TO RIGHT CONTROLLER-->
+            </div>
+
+          </ul>
+        </li>
+        
+        </div>
+        
+        <li class="nav-item">
+          <a class="nav-link" href="#" th:href="@{/homepage/producers}">Find Producers</a>
+        </li>
+        
+        </ul>
+        <a class="btn btn-primary" sec:authorize="isAuthenticated()" th:href='@{/logout}' >Logout</a>
+    </div>
+    
+  </div>
+</nav>
+<!-- Navbar -->
+
+
+<footer class="border-top" style="position: fixed;bottom: 0px;justify-content: center;width: 100%;text-align: center;" th:fragment='footer'>
+    <span class="text-muted" >© 2022 AgroMart, Inc</span>
+</footer> 
