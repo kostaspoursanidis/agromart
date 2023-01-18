@@ -21,7 +21,7 @@ public class User {
 	private String password;
 	private String role;
 	private String address;
-	private String[] products;
+	//private String[] products;
 	private String phoneNum;
 	private String photo;
 	
@@ -30,14 +30,14 @@ public class User {
 	public User() {}
 	
 	public User(String name, String email, String password, String role, String address,
-			String[] products, String phoneNum,String photo) {
+			 String phoneNum,String photo) {
 		super();
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.role = role;
 		this.address = address;
-		this.products = products;
+		//this.products = products;
 		this.phoneNum = phoneNum;
 		this.photo = photo;
 	}
@@ -92,13 +92,13 @@ public class User {
 		this.address = address;
 	}
 
-	public String[] getProducts() {
-		return products;
-	}
-
-	public void setProducts(String[] products) {
-		this.products = products;
-	}
+//	public String[] getProducts() {
+//		return products;
+//	}
+//
+//	public void setProducts(String[] products) {
+//		this.products = products;
+//	}
 
 
 

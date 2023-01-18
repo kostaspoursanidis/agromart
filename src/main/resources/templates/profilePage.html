@@ -39,15 +39,16 @@
                               <p class="text-secondary mb-1">[[${user.role}]]</p>
                               <p class="text-muted font-size-sm">[[${user.address}]]</p>
 
-                              <span th:if="${user.id != curruser.id}">
-                                <span th:if="${isFollowed=='false'}">
-                                  <a class="btn btn-primary" th:href="@{/profile/follow}">Follow</a>
-                                </span>
-                                <span th:unless="${isFollowed=='false'}">
-                                  <a class="btn btn-primary" th:href="@{/profile/unfollow}" >Unfollow</a>
-                                </span>
+							  <span sec:authorize="hasRole('ROLE_CIVILIAN')">
+	                              <span th:if="${user.id != curruser.id}">
+	                                <span th:if="${isFollowed=='false'}">
+	                                  <a class="btn btn-primary" th:href="@{/profile/follow}">Follow</a>
+	                                </span>
+	                                <span th:unless="${isFollowed=='false'}">
+	                                  <a class="btn btn-primary" th:href="@{/profile/unfollow}" >Unfollow</a>
+	                                </span>
+	                              </span>
                               </span>
-                              
                             </div>
                           </div>
                         </div>
@@ -60,7 +61,7 @@
                                     <span class="text-secondary">[[${fruit}]]</span>
                                 </li>
                             <th:block/>
-                            </span>
+                          </span>
                         </ul>
                       </div>
                     </div>
@@ -129,11 +130,11 @@
 
                           <span th:if="${curruser.role == 'buyer' and curruser.id != user.id}">
                           
-                          <div class="row">
-                            <div class="col-sm-12"> 
-                              <a class="btn btn-info "  th:href="@{'/BuyerOffers/create/' + ${user.id}}">Make Buyer Offer</a>
-                            </div>
-                          </div>
+	                          <div class="row">
+	                            <div class="col-sm-12"> 
+	                              <a class="btn btn-info "  th:href="@{'/BuyerOffers/create/' + ${user.id}}">Make Wholesale Order</a>
+	                            </div>
+	                          </div>
                           </span>
 
                         </div>

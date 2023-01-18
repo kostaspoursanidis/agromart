@@ -47,5 +47,19 @@ public class Rating {
         return rated_user_id;
     }
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setRated_user_id(Long rated_user_id) {
+		this.rated_user_id = rated_user_id;
+	}
+
+	public void setAuthor_id(Long author_id) {
+		this.author_id = author_id;
+	}
+    
+    
+
     
 }

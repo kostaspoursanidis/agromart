@@ -11,8 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
-import com.Services.UserService;
+import com.Services.UserDetailsImpl;
+//import com.Services.UserService;
 
 
 
@@ -21,7 +21,7 @@ import com.Services.UserService;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
-	private UserService userService;
+	private UserDetailsImpl userDetailsService;
  
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -31,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-        auth.setUserDetailsService(userService);
+        auth.setUserDetailsService(userDetailsService);
         auth.setPasswordEncoder(passwordEncoder());
         return auth;
     }
@@ -47,11 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     public void configure(HttpSecurity http) throws Exception {
      
     	
-        http.authorizeRequests().antMatchers("/register**","/imgs/**").permitAll()
+        http.csrf().disable().authorizeRequests().antMatchers("/register**","/imgs/**","/login**","/forgotpassword**","/resetpassword/**").permitAll()
                 .anyRequest().authenticated()
                 .and().formLogin()
                 .loginPage("/login")
-                	.defaultSuccessUrl("/homepage", true)
+                	.defaultSuccessUrl("/profile", true)
                     
                     .permitAll()
                 .and()
@@ -62,6 +62,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
                 .logoutSuccessUrl("/login?logout")
                 .permitAll();
  
-    }
+    } //csrf disable added 14/1/23 for testing if it causes problems delete it
  
 }

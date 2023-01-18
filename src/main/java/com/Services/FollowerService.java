@@ -30,5 +30,9 @@ public class FollowerService {
     public void saveFollower(Followers followers){
         followerRepo.save(followers);
     }
+    
+    public List<Followers> getAllFollowees(Long followee_id){
+    	return followerRepo.getAllFollowees(followee_id);
+    }
 
 }

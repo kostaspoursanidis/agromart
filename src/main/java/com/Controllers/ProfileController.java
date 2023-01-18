@@ -12,7 +12,7 @@ import com.Model.User;
 import com.Services.FollowerService;
 import com.Services.FruitService;
 import com.Services.RatingService;
-import com.Services.UserServiceImpl;
+import com.Services.UserService;
 import com.Utils.FileUploadUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileController {
 
     @Autowired
-	private UserServiceImpl userService;
+	private UserService userService;
 
     @Autowired
     private RatingService ratingService;
@@ -127,14 +127,25 @@ public class ProfileController {
         
         User user = userService.getById(id);
         model.addAttribute("user", user);
+        
+        //To be tested
+        if(user.getRole().equals("producer")) {
+        	List<Fruits> fruitList = fruitService.getByProdID(id);
+        	List<String> fruits = new ArrayList<>();
+        	for(Fruits fruit: fruitList ) {
+        		fruits.add(fruit.getType());
+        	}
+        	model.addAttribute("fruits", fruits);
+        }
 
         passHolder=user.getPassword();
+        
         
         return "profileEditForm";
     }
 
     @PostMapping("/edit/save")
-    public String saveChanges(@ModelAttribute("user") User user,@RequestParam("image") MultipartFile multipartFile,@RequestParam("idf") String[] fruits) throws IOException{
+    public String saveChanges(@ModelAttribute("user") User user,@RequestParam("image") MultipartFile multipartFile,@RequestParam(name = "idf",required = false) String[] fruits) throws IOException{
 
         
         Boolean passChanged = false;
@@ -155,17 +166,22 @@ public class ProfileController {
             FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
         }
 
+        
         //Adding or editing fruits
-        if(fruits.length !=0){
-            fruitService.deleteByProdID(user.getId());
-            for (String fruit : fruits){
-                if(fruitService.hasFruit(user.getId(), fruit) == true){
-                    continue;
-                }else{
-                    Fruits newfruit = new Fruits(user.getId(),fruit);
-                    fruitService.saveFruitToUser(newfruit);
-                }
-            }
+        if(fruits != null) {
+	        if(fruits.length !=0){
+	            fruitService.deleteByProdID(user.getId());
+	            for (String fruit : fruits){
+	                if(fruitService.hasFruit(user.getId(), fruit) == true){
+	                    continue;
+	                }else{
+	                    Fruits newfruit = new Fruits(user.getId(),fruit);
+	                    fruitService.saveFruitToUser(newfruit);
+	                }
+	            }
+	        }
+        }else {
+        	fruitService.deleteByProdID(user.getId());
         }
 
         userService.editUser(user,passChanged);
@@ -178,6 +194,7 @@ public class ProfileController {
     public String rateUser(@PathVariable("id") Long id,Model model){
         userHolder = userService.getById(id);
         model.addAttribute("id", id);
+        model.addAttribute("user", userHolder);
         
 
         return "rateUser";
@@ -213,7 +230,27 @@ public class ProfileController {
 
         return "redirect:/profile/" + user.getId();
     }
-
+    
+    @GetMapping("/followerlist")
+    public String manageFollowers(Model model) {
+    	
+    	User currUser = userService.getCurrentSessionUser();
+    	
+    	Long currID = currUser.getId();
+    	
+    	List<Followers> fList = followerService.getAllFollowees(currID);
+    	
+    	List<User> followee_list = new ArrayList<User>();
+    	
+    	for (Followers followee : fList) {
+			Long f_id = followee.getFollowedUserID();
+			followee_list.add(userService.getById(f_id));
+		}
+    	
+    	model.addAttribute("followerList", followee_list);
+    	
+    	return "followerList";
+    }
 
 
     

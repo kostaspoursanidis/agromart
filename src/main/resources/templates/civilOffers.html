@@ -19,7 +19,7 @@
 
 
 
-  <title>My Civil Offers</title>
+  <title>My Retail Offers</title>
 
   
 </head>
@@ -27,7 +27,7 @@
 
     <div th:replace="header :: header" ></div>
 
-    <h2 style="text-align: center;">Manage Civilian Offers</h2>
+    <h2 style="text-align: center;">Manage Retail Offers</h2>
 
     <div  style="margin-left: 10px;margin-right: 10px;">
         <table class="table table-bordered table-dark">
@@ -46,7 +46,7 @@
                     <tr class="table-light">
                         <td>[[${cOffer.id}]]</td>
                         <td>[[${cOffer.type_of_product}]]</td>
-                        <td>[[${cOffer.price_per_kg}]]</td>
+                        <td>[[${cOffer.price_per_kg}]] Euro</td>
                         <td>
                             <a class="btn btn-primary" role="button" th:href="@{'/CivilOffers/edit/'+ ${cOffer.id}}">Edit</a>
                             <a class="btn btn-danger" role="button" th:href="@{'/CivilOffers/delete/'+ ${cOffer.id}}">Delete</a>
@@ -56,7 +56,7 @@
             </tbody>
         </table>
         <div style="text-align: center;">
-        <a class="btn btn-primary" th:href="@{/CivilOffers/create}">Create New Civilian Offer</a>
+        <a class="btn btn-primary" th:href="@{/CivilOffers/create}">Create New Retail Offer</a>
         </div>
     </div>
 

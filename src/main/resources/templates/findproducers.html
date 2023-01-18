@@ -5,7 +5,7 @@
     
     <div th:replace="headtags :: headtags"></div>
 
-  <title>Home Page</title>
+  <title>Find Producers</title>
 
   
 </head>
@@ -16,15 +16,16 @@
 
 <br>
 
-<!-- <div class="container" style="margin-left: 5%!important;">
+<div class="container" style="margin-left: 5%!important;">
   <div class="row">
-  <div class="col" style="column-width: 15%;">
-    <form th:action="@{/homepage/filtered}" method="get">
+  <div class="col-md-4" style="padding-right: 70px;">
+    <form th:action="@{/homepage/producers/filtered}" method="get">
     <h5>Filters:</h5>
     <br>
 
-    <select class="form-select" aria-label="Default select example" id="type_of_product" name = "filter"  >
+    <select class="form-select" aria-label="Default select example" id="type_of_product" name = "produce"  >
       <optgroup label='Fruits'>
+      	<option value="any">Any Type</option>
         <option value="Cherry">Cherries</option>
         <option value="Peach">Peaches</option>
         <option value="Plums">Plums</option>
@@ -50,28 +51,44 @@
         <option value="Other">Other</option>
       </optgroup>
     </select>
+
+	<div class="form-group">
+    	<label for="name">Search by name</label>
+    	<input type="text" class="form-control" id="name" name="name" placeholder="Enter User's Name">
+  	</div>
+	
+	<div class="form-group">
+    	<label for="rating">Minimum Rating</label>
+    	<input type="number" step="0.01" min="0" max="5" class="form-control" id="rating" name="rating" placeholder="Enter Minimum Rating">
+  	</div>
     
     <br>
     <br>
     <button class="btn btn-primary" type="submit" >Search</button>
+    <a style="margin-left: 10px" class="btn btn-secondary" th:href="@{/homepage/producers}">Clear</a>
 
     </form>
     
-  </div> -->
+  </div> 
 
   
 
 
-<!-- <div class="col"> -->
+<div class="col-md-8" style="padding-left: 20%;">
 <th:block th:each="user : ${producers}">
 
 <span th:if="${user.role == 'producer'}">
   
-      <div class="card" style="margin-top: 20px!important;" >
+      <div class="card" style="margin-top: 20px!important;margin-bottom: 20px!important;" >
         <span th:if="${user.photo != null}" style="text-align: center;">
-          <img height="350px" th:src="@{'../user-photos/'+ ${user.id} + '/' + ${user.photo}}"alt="Card image cap">
+        	<span th:if="${ user.photo != ''}">
+          		<img height="350px" th:src="@{'../user-photos/'+ ${user.id} + '/' + ${user.photo}}"alt="Card image cap">
+        	</span>
         </span>
-        <!-- INSERT CODE TO SHOW DEFAULT USER PHOTO IF NONE HAS BEEN PICKED OR MAYBE AS YOU CREATE THE USER ENTER THE PHOTO THERE -->
+        <span th:unless="${user.photo != null} and ${user.photo} != '' " style="text-align: center;">
+          <img height="350px"  th:src="@{/imgs/stock-profile.jpg}" alt="Card image cap">
+        </span>
+        
         <div class="card-body">
           <h5 class="card-title">[[${user.name}]]</h5>   
           
@@ -79,7 +96,7 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">Address: [[${user.address}]] </li>
           <li class="list-group-item">Phone Number: [[${user.phoneNum}]]</li>
-          <li class="list-group-item">Rating: [[${user.rating}]] </li>
+          <li class="list-group-item">Rating: [[${user.rating}]]/5</li>
           
           <script th:inline="javascript">
             
@@ -103,24 +120,21 @@
   
         </ul>
         <div class="card-body">
-          <a class="btn btn-primary btn-sm" th:href="@{'/profile/'+ ${user.id}}">Producers Profile</a>
-          
+          <a class="btn btn-primary btn-sm" th:href="@{'/profile/'+ ${user.id}}">Producer's Profile</a>
+          <span th:if="${user.id != currUser.id}">
+          	<a class="btn btn-warning btn-sm" th:href="@{'/profile/rate/'+ ${user.id}}">Rate User</a>
+          </span>
         </div>
       </div>
     </span>
 </th:block>
 
-<!-- </div> -->
+</div> 
 
 <br>
 
 </div>
 </div>
 
-
-
 </body>
-
-
-
 </html>

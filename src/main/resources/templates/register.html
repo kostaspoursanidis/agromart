@@ -17,8 +17,8 @@
 	<title>Register Page</title>
 </head>
 
-<section class="vh-100" style="background-image: linear-gradient(to bottom right,  #66e590 , #fafafa); height: 100%!important;">
-  <div class="container h-100">
+<section class="vh-100" style="background-image: linear-gradient(to bottom right,  #66e590 , #fafafa); "> <!--height: 100%!important;-->
+   <div class="container h-100"><!-- style="overflow-y: hidden;"> -->
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div style="width: 50%;">
         <div class="card text-black" style="border-radius: 25px;">
@@ -60,7 +60,7 @@
                   <div class="d-flex flex-row align-items-center mb-4">
                     <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                     <div class="form-outline flex-fill mb-0">
-                      <input type="password" id="password" required="required" class="form-control" th:field = "*{password}" />
+                      <input type="password" id="password" pattern=".{6,}" title="6 or more characters" required="required" class="form-control" th:field = "*{password}" />
                       <label class="form-label" for="password">Password</label>
                     </div>
 				  </div>
@@ -85,24 +85,21 @@
 
 				<div class="col-md mb-4">
 
-                  <h10 class="mb-2 pb-1">Type of User: </h10>
+                  <a >Type of User: </a> <!-- class="mb-2 pb-1" -->
 
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" th:field = "*{role}" type="radio" name="inlineRadioOptions" id="role"
-                      value="civilian" checked />
-                    <label class="form-check-label" for="role">Civilian</label>
+                  <div class="form-check form-check-inline ">
+                    <input class="form-check-input" th:field = "*{role}" type="radio"  id="role1" value="civilian" checked > <!-- name="inlineRadioOptions" -->
+                    <label class="form-check-label" for="role1">Civilian</label>
                   </div>
 
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input"  th:field = "*{role}" type="radio" name="inlineRadioOptions" id="role"
-                      value="producer" />
-                    <label class="form-check-label" for="role">Producer</label>
+                    <input class="form-check-input"  th:field = "*{role}" type="radio"  id="role2" value="producer" >
+                    <label class="form-check-label" for="role2">Producer</label>
                   </div>
 
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" th:field = "*{role}" type="radio" name="inlineRadioOptions" id="role"
-                      value="buyer" />
-                    <label class="form-check-label" for="role">Buyer</label>
+                    <input class="form-check-input" th:field = "*{role}" type="radio"  id="role3" value="buyer" >
+                    <label class="form-check-label" for="role3">Buyer</label>
                   </div>
 
 				</div>

@@ -19,7 +19,7 @@
 
 
 
-  <title>My Buyer Offers</title>
+  <title>My Wholesale Orders</title>
 
   
 </head>
@@ -27,7 +27,7 @@
 
     <div th:replace="header :: header" ></div>
 
-    <h2 style="text-align: center;">Manage Buyer Offers</h2>
+    <h2 style="text-align: center;">Manage Wholesale Orders</h2>
 
     <div  style="margin-left: 10px;margin-right: 10px;">
         <table class="table table-bordered table-dark">
@@ -36,9 +36,15 @@
                     <th>ID</th>
                     <th>Type</th>
                     <th>Price per Kg</th>
-                    <th>Approximate Kilos Wanted</th>
-                    <th>Buyers Name</th>
+                    <th>Kilos Wanted</th>
+                    <span sec:authorize="hasRole('ROLE_PRODUCER')">
+                    	<th>Buyer's Profile</th>
+                    </span>
+                    <span sec:authorize="hasRole('ROLE_BUYER')">
+                    	<th>Producer's Profile</th>
+                    </span>
                     <th>Actions</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,23 +54,95 @@
                     <tr class="table-light">
                         <td>[[${bOffer.id}]]</td>
                         <td>[[${bOffer.type_of_product}]]</td>
-                        <td>[[${bOffer.price_per_kg}]]</td>
+                        <td>[[${bOffer.price_per_kg}]] Euro</td>
                         <td>[[${bOffer.approx_kilos_wanted}]] tonnes</td>
-                        <td> <a class="btn btn-info" th:href="@{'/profile/'+${bOffer.buyer_id}}">[[${bOffer.buyer_name}]]</a> </td>
+                        <td> 
+                            <span sec:authorize="hasRole('ROLE_PRODUCER')">
+                                <a class="btn btn-info" th:href="@{'/profile/'+${bOffer.buyer_id}}">[[${bOffer.buyer_name}]]</a> 
+                            </span>
+                            <span sec:authorize="hasRole('ROLE_BUYER')">
+                                <a class="btn btn-info" th:href="@{'/profile/'+${bOffer.producer_id}}">Producer's profile</a> 
+                            </span>
+                        
+                        </td>
+
                         <td>
-                            <span th:if="${bOffer.state == null}">
-                            <span th:if="${user.role == 'producer'}">
-                                <a class="btn btn-success" role="button" th:href="@{'/BuyerOffers/accept/'+ ${bOffer.id}}">Accept</a>
-                                <a class="btn btn-danger" role="button" th:href="@{'/BuyerOffers/decline/'+ ${bOffer.id}}">Decline</a>
+                            <span th:if="${bOffer.status eq 'awaiting_response'}">
+                            	<span th:if="${user.role == 'producer'}">
+                                	<a class="btn btn-success" role="button" th:href="@{'/BuyerOffers/accept/'+ ${bOffer.id}}">Accept</a>
+                                	<a class="btn btn-danger" role="button" th:href="@{'/BuyerOffers/decline/'+ ${bOffer.id}}">Decline</a>
+                            	</span>
+                            	<span th:unless="${user.role == 'producer'}">
+                                	<a class="btn btn-primary" role="button" th:href="@{'/BuyerOffers/edit/'+ ${bOffer.id}}">Edit</a>
+                                	<a class="btn btn-danger" role="button" th:href="@{'/BuyerOffers/delete/'+ ${bOffer.id}}">Delete</a>
+                            	</span>
                             </span>
-                            <span th:unless="${user.role == 'producer'}">
-                                <a class="btn btn-primary" role="button" th:href="@{'/BuyerOffers/edit/'+ ${bOffer.id}}">Edit</a>
-                                <a class="btn btn-danger" role="button" th:href="@{'/BuyerOffers/delete/'+ ${bOffer.id}}">Delete</a>
+                            
+                            <span th:if="${bOffer.status eq 'pending_payment'}">
+                                <span th:if="${user.role == 'producer'}">
+                                	<a>None.</a>
+                            	</span>
+                            	<span th:unless="${user.role == 'producer'}">                          		
+                                	<a class="btn btn-primary" role="button" th:href="@{'/BuyerOffers/depositMade/'+ ${bOffer.id}}">Deposit Made</a>
+                            	</span>
                             </span>
+                            
+                            <span th:if="${bOffer.status == 'awaiting_completion' }">
+                                <span th:if="${user.role == 'producer'}">
+                                	<a class="btn btn-primary" role="button" th:href="@{'/BuyerOffers/confirmDeposit/'+ ${bOffer.id}}">Confirm deposit</a>
+                            	</span>
+                            	<span th:unless="${user.role == 'producer'}">
+                                	<a>None.</a>
+                            	</span>
                             </span>
-                            <span th:unless="${bOffer.state ==  null}">
-                                <a> Please contact the other party about the offer </a>
+                            
+                            <span th:if="${bOffer.status == 'completed' }">
+                            	<span th:if="${user.role == 'producer'}">
+                                	<a class="btn btn-primary" role="button" th:href="@{'/profile/rate/'+ ${bOffer.buyer_id}}">Rate User</a>
+                            	</span>
+                            	<span th:unless="${user.role == 'producer'}">
+                                	<a class="btn btn-primary" role="button" th:href="@{'/profile/rate/'+ ${bOffer.producer_id}}">Rate User</a>
+                            	</span>
                             </span>
+                            
+                        </td>
+                        
+                        <td>
+                            <span th:if="${bOffer.status eq 'awaiting_response'}">
+                            	<span th:if="${user.role == 'producer'}">
+                                	<a>Pending Response</a>                              	
+                            	</span>
+                            	<span th:unless="${user.role == 'producer'}">
+                                	<a>Pending Response</a>
+                            	</span>
+                            </span>
+                            
+                            <span th:if="${bOffer.status eq 'pending_payment'}">
+                                <span th:if="${user.role == 'producer'}">
+                                	<a>Awaiting deposit from Buyer.</a>
+                            	</span>
+                            	<span th:unless="${user.role == 'producer'}">
+                            		<div style="text-align:center">
+                                		<a>Awaiting Deposit.</a>
+                                	</div>
+                            	</span>
+                            </span>
+                            
+                            <span th:if="${bOffer.status == 'awaiting_completion' }">
+                                <span th:if="${user.role == 'producer'}">
+                                	<div style="text-align:center">
+                                	<a>Awaiting Verification of Deposit.</a>
+                                	</div>
+                            	</span>
+                            	<span th:unless="${user.role == 'producer'}">
+                                	<a>Awaiting Verification of Deposit.</a>
+                            	</span>
+                            </span>
+                            
+                            <span th:if="${bOffer.status == 'completed' }">
+                            	<a>Completed.</a>
+                            </span>
+                            
                         </td>
                     </tr>
                 </th:block>

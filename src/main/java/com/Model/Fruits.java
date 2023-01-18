@@ -32,5 +32,18 @@ public class Fruits {
         return prod_id;
     }
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setProd_id(Long prod_id) {
+		this.prod_id = prod_id;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+    
     
 }
