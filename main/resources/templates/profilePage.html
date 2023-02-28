@@ -1,0 +1,162 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <div th:replace="headtags :: headtags"></div>
+
+        <title>Profile Page</title>
+
+
+
+    </head>
+
+    <body>
+
+        <div th:replace="header :: header"></div>
+        <br>
+
+        <div class="container">
+            <div class="main-body">
+                  <div class="row gutters-sm">
+                    <div class="col-md-4 mb-3">
+                      <div class="card">
+                        <div class="card-body">
+                          <div class="d-flex flex-column align-items-center text-center">
+                            
+                            <span th:if="${ user.photo != null }">
+                              <span th:if="${ user.photo != ''}">
+                              <img th:src="@{'../user-photos/'+ ${user.id}+ '/' + ${user.photo}}" alt="Photo" class="rounded-circle" width="150">
+                              </span>
+                            </span>
+                            <span th:unless="${user.photo} != null and ${user.photo} != '' ">
+                              
+                              <img th:src="@{../imgs/stock-profile.jpg}" alt="Photo" class="rounded-circle" width="150">
+                    
+                            </span>
+
+                            <div class="mt-3">
+                              <h4>[[${user.name}]]</h4>
+                              <span th:if="${user.role == 'producer'}">
+                              	<p class="text-secondary mb-1">Producer</p>
+                              </span>
+                              <span th:if="${user.role == 'civilian'}">
+                              	<p class="text-secondary mb-1">Retail Buyer</p>
+                              </span>
+                              <span th:if="${user.role == 'buyer'}">
+                              	<p class="text-secondary mb-1">Wholesale Buyer</p>
+                              </span>
+                              
+
+							  <span sec:authorize="hasRole('ROLE_CIVILIAN')">
+	                              <span th:if="${user.id != curruser.id}">
+	                                <span th:if="${isFollowed=='false'}">
+	                                  <a class="btn btn-primary" th:href="@{/profile/follow}">Follow</a>
+	                                </span>
+	                                <span th:unless="${isFollowed=='false'}">
+	                                  <a class="btn btn-primary" th:href="@{/profile/unfollow}" >Unfollow</a>
+	                                </span>
+	                              </span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <span th:if="${user.role == 'producer'}">
+                      	<br>
+                      	<h5>Usually Produces:</h5>
+                      	<div class="card mt-3">
+                        	<ul class="list-group list-group-flush">
+                            	<th:block th:each="fruit : ${fruitList}">
+                                	<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                                    	<span class="text-secondary">[[${fruit}]]</span>
+                                	</li>
+                            	<th:block/>
+                        	</ul>
+                      	</div>
+                      </span>
+                    </div>
+                    <div class="col-md-8">
+                      <div class="card mb-3">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0"><i class="fas fa-user fa-sm"></i> Full Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                              [[${user.name}]]
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0"><i class="fas fa-envelope fa-sm"></i> Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <a href="mailto:${user.email}">[[${user.email}]]</a>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0"><i class="fas fa-phone fa-sm"></i> Phone</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <a href="tel:${user.phoneNum}">[[${user.phoneNum}]]</a>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0"><i class="fas fa-location-dot fa-sm"></i> Address</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                [[${user.address}]]
+                            </div>
+                          </div>
+
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-3">
+                              <h6 class="mb-0"><i class="fas fa-star fa-sm"></i> Rating</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                [[${user.rating}]] / 5
+                            </div>
+                          </div>
+                          <hr>
+
+                          <span th:if="${user.id != curruser.id}">
+                          <a class="btn btn-warning" style="margin-bottom: 2%;" th:href="@{'/profile/rate/' + ${user.id} }"> Rate User </a>
+                          </span>
+
+                          <span th:if="${user.id == curruser.id}">
+                          
+                          <div class="row">
+                            <div class="col-sm-12"> 
+                              <a class="btn btn-info " th:href="@{'/profile/edit/' + ${user.id}}">Edit</a>
+                            </div>
+                          </div>
+                          </span>
+
+                          <span th:if="${curruser.role == 'buyer' and curruser.id != user.id}">
+                          
+	                          <div class="row">
+	                            <div class="col-sm-12"> 
+	                              <a class="btn btn-info "  th:href="@{'/BuyerOffers/create/' + ${user.id}}">Make Wholesale Order</a>
+	                            </div>
+	                          </div>
+                          </span>
+
+                        </div>
+                      </div>
+                      	<div style="text-align: center;">
+              				<iframe width="600" height="500" id="gmap_canvas" th:src="@{${'https://maps.google.com/maps?q='+addressQ+'&t=&z=11&ie=UTF8&iwloc=&output=embed'}}" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+              				<br> 
+            			</div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+    </body>
+
+</html>
