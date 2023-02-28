@@ -11,18 +11,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
-import com.Model.Followers;
-import com.Repos.FollowerRepo;
+import com.model.Follower;
+import com.repos.FollowerRepo;
 
 @DataJpaTest
+@TestPropertySource(
+        locations = "classpath:test.properties"
+)
 public class FollowerRepoTest {
 	
 	
 	@Autowired 
 	private FollowerRepo followerRepoTest;
 	
-	private List<Followers> expected = new ArrayList<>();
+	private List<Follower> expected = new ArrayList<>();
 	
 	private Long follower_id = (long) 1;
 	private Long followee_id1 = (long) 2;
@@ -31,8 +35,8 @@ public class FollowerRepoTest {
 	
 	@BeforeEach
 	void setUp() {
-		Followers f1 = new Followers();
-		Followers f2 = new Followers();
+		Follower f1 = new Follower();
+		Follower f2 = new Follower();
 		
 		f1.setFollow_user_id(follower_id);
 		f1.setFollowee_id(followee_id1);
@@ -55,7 +59,7 @@ public class FollowerRepoTest {
 	
 	@Test
 	void getSpecificFollower() {
-		Followers querried = followerRepoTest.getFollower(follower_id, followee_id1);
+		Follower querried = followerRepoTest.getFollower(follower_id, followee_id1);
 		
 		assertThat(querried).isNotNull();
 		assertEquals(expected.get(0).getFolloweeID(),querried.getFolloweeID());
@@ -64,7 +68,7 @@ public class FollowerRepoTest {
 	
 	@Test
 	void getAllFollowers() {
-		List<Followers> querried = followerRepoTest.getAllFollowers(follower_id);
+		List<Follower> querried = followerRepoTest.getAllFollowers(follower_id);
 		
 		assertThat(querried).isNotNull();
 		assertEquals(expected.size(),querried.size());
@@ -76,7 +80,7 @@ public class FollowerRepoTest {
 	
 	@Test
 	void getAllFollowees() {
-		List<Followers> querried = followerRepoTest.getAllFollowees(followee_id1);
+		List<Follower> querried = followerRepoTest.getAllFollowees(followee_id1);
 		
 		assertThat(querried).isNotNull();
 		assertEquals(expected.get(0).getFolloweeID(),querried.get(0).getFolloweeID());

@@ -9,8 +9,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,12 +25,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import com.Model.CartItem;
-import com.Model.User;
-import com.Repos.CartItemRepo;
-import com.Repos.RetailOfferRepo;
-import com.Repos.UserRepo;
-import com.Services.UserService;
+import com.model.CartItem;
+import com.model.User;
+import com.repos.CartItemRepo;
+import com.repos.RetailOfferRepo;
+import com.repos.UserRepo;
+import com.services.UserService;
 
 @SpringBootTest
 @TestPropertySource(
@@ -35,6 +38,7 @@ import com.Services.UserService;
 )
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc(addFilters = false)
+@TestMethodOrder(OrderAnnotation.class)
 public class RetailOfferControllerTest {
 	
 	@Autowired
@@ -85,16 +89,17 @@ public class RetailOfferControllerTest {
     
     @Test
 	@WithUserDetails(value="email@email.com")
-	void canGetCivilOfferCreatePage() throws Exception {
+	void canGetRetailOfferCreatePage() throws Exception {
     	mvc.perform(get("/CivilOffers/create"))
     		.andExpect(status().isOk())
     		.andExpect(model().attributeExists("civiloffer"))
     		.andExpect(view().name("civilOfferCreationPage"));
     }
     
+    @Order(1)
     @Test
 	@WithUserDetails(value="email@email.com")
-	void canCreateCivilOffer() throws Exception {
+	void canCreateRetailOffer() throws Exception {
 		
 		MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 	    multiValueMap.add("id", "1");
@@ -122,9 +127,10 @@ public class RetailOfferControllerTest {
 		
 	}
     
+    @Order(2)
     @Test
 	@WithUserDetails(value="email@email.com")
-	void canCreateCivilOfferWithProductTypeOther() throws Exception {
+	void canCreateRetailOfferWithProductTypeOther() throws Exception {
 		
 		MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 	    multiValueMap.add("id", "1");
@@ -151,9 +157,10 @@ public class RetailOfferControllerTest {
 		
 	}
     
+    @Order(3)
     @Test
 	@WithUserDetails(value="email@email.com")
-	void canGetCivilOfferEditPage() throws Exception {
+	void canGetRetailOfferEditPage() throws Exception {
     	String co_id = Long.toString(coRepo.findAll().get(0).getId());
     	
     	mvc.perform(get("/CivilOffers/edit/"+co_id))
@@ -162,6 +169,7 @@ public class RetailOfferControllerTest {
     		.andExpect(view().name("civilOfferCreationPage"));
     }
     
+    @Order(4)
     @Test
 	@WithUserDetails(value="email@email.com")
 	void canGetRetailOrdersListPage() throws Exception {
@@ -175,10 +183,12 @@ public class RetailOfferControllerTest {
     		.andExpect(view().name("claimed"));
     }
     
+    @Order(5)
     @Test
 	@WithUserDetails(value="email@email.com")
 	void canSetRetailOrderAsCompleted() throws Exception {
     	CartItem temp_item = new CartItem();
+    	temp_item.setBuyer_id(userService.getAllUsers().get(0).getId());
     	cartItemRepo.save(temp_item);
     	String ci_id = Long.toString(cartItemRepo.findAll().get(0).getId());
     	

@@ -98,10 +98,10 @@
                             
                             <span th:if="${bOffer.status == 'completed' }">
                             	<span th:if="${user.role == 'producer'}">
-                                	<a class="btn btn-primary" role="button" th:href="@{'/profile/rate/'+ ${bOffer.buyer_id}}">Rate User</a>
+                                	<a class="btn btn-warning" role="button" th:href="@{'/profile/rate/'+ ${bOffer.buyer_id}}">Rate User</a>
                             	</span>
                             	<span th:unless="${user.role == 'producer'}">
-                                	<a class="btn btn-primary" role="button" th:href="@{'/profile/rate/'+ ${bOffer.producer_id}}">Rate User</a>
+                                	<a class="btn btn-warning" role="button" th:href="@{'/profile/rate/'+ ${bOffer.producer_id}}">Rate User</a>
                             	</span>
                             </span>
                             
@@ -122,17 +122,13 @@
                                 	<a>Awaiting deposit from Buyer.</a>
                             	</span>
                             	<span th:unless="${user.role == 'producer'}">
-                            		<div style="text-align:center">
                                 		<a>Awaiting Deposit.</a>
-                                	</div>
                             	</span>
                             </span>
                             
                             <span th:if="${bOffer.status == 'awaiting_completion' }">
                                 <span th:if="${user.role == 'producer'}">
-                                	<div style="text-align:center">
                                 	<a>Awaiting Verification of Deposit.</a>
-                                	</div>
                             	</span>
                             	<span th:unless="${user.role == 'producer'}">
                                 	<a>Awaiting Verification of Deposit.</a>

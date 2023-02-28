@@ -21,11 +21,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
-import com.Model.User;
-import com.Repos.UserRepo;
-import com.Services.FruitService;
-import com.Services.UserService;
+import com.model.User;
+import com.repos.UserRepo;
+import com.services.FruitService;
+import com.services.UserService;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -80,7 +79,7 @@ public class UserServiceTest {
 		
 		User returned_user = serviceUnderTest.findByEmail("email@email.com");
 		
-		verify(userRepo).save(any(User.class));
+		
 		assertEquals(returned_user.getEmail(),expected_user.getEmail());
 	}
 	

@@ -2,7 +2,6 @@ package com.controllerTests;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.Matchers.hasProperty;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,28 +20,23 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 //import org.springframework.web.context.WebApplicationContext;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.Model.User;
-import com.Repos.FollowerRepo;
-import com.Repos.FruitRepo;
-import com.Repos.RatingRepo;
-import com.Repos.UserRepo;
-import com.Services.FollowerService;
-import com.Services.FruitService;
-import com.Services.RatingService;
-import com.Services.UserDetailsImpl;
-import com.Services.UserService;
+import com.model.User;
+import com.repos.FollowerRepo;
+import com.repos.FruitRepo;
+import com.repos.RatingRepo;
+import com.repos.UserRepo;
+import com.services.FollowerService;
+import com.services.FruitService;
+import com.services.RatingService;
+import com.services.UserService;
 
 @SpringBootTest
 @TestPropertySource(

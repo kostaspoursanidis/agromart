@@ -15,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.Model.Fruits;
-import com.Repos.FruitRepo;
-import com.Services.FruitService;
+import com.model.Fruit;
+import com.repos.FruitRepo;
+import com.services.FruitService;
 
 @ExtendWith(MockitoExtension.class)
 public class FruitServiceTest {
@@ -34,7 +34,7 @@ public class FruitServiceTest {
 		Long producers_id = 1l;
 		String fruit_type = "type" ;
 		
-		Fruits expected = new Fruits();
+		Fruit expected = new Fruit();
 		expected.setProd_id(producers_id);
 		expected.setType(fruit_type);
 		
@@ -57,16 +57,16 @@ public class FruitServiceTest {
 		Long producers_id = 1l;
 		String fruit_type = "type" ;
 		
-		Fruits expected = new Fruits();
+		Fruit expected = new Fruit();
 		expected.setProd_id(producers_id);
 		expected.setType(fruit_type);
 		
-		List<Fruits> expected_list = new ArrayList<>();
+		List<Fruit> expected_list = new ArrayList<>();
 		expected_list.add(expected);
 		
 		Mockito.when(fruitRepo.getByProdID(producers_id)).thenReturn(expected_list);
 	
-		List<Fruits> returned_list = serviceUnderTest.getByProdID(producers_id);
+		List<Fruit> returned_list = serviceUnderTest.getByProdID(producers_id);
 		
 		assertEquals(returned_list.get(0).getProd_id(),expected_list.get(0).getProd_id());
 	
@@ -79,7 +79,7 @@ public class FruitServiceTest {
 		Long producers_id = 1l;
 		String fruit_type = "type" ;
 		
-		Fruits expected = new Fruits();
+		Fruit expected = new Fruit();
 		expected.setProd_id(producers_id);
 		expected.setType(fruit_type);
 		
@@ -97,7 +97,7 @@ public class FruitServiceTest {
 		Long producers_id = 1l;
 		String fruit_type = "type" ;
 		
-		Fruits expected = new Fruits();
+		Fruit expected = new Fruit();
 		expected.setProd_id(producers_id);
 		expected.setType(fruit_type);
 		
@@ -115,17 +115,17 @@ public class FruitServiceTest {
 		Long producers_id = 1l;
 		String fruit_type = "type" ;
 		
-		Fruits expected = new Fruits();
+		Fruit expected = new Fruit();
 		expected.setProd_id(producers_id);
 		expected.setType(fruit_type);
 		
 		serviceUnderTest.saveFruitToUser(expected);
 		
-		ArgumentCaptor<Fruits> fruitArgumentCaptor = ArgumentCaptor.forClass(Fruits.class);
+		ArgumentCaptor<Fruit> fruitArgumentCaptor = ArgumentCaptor.forClass(Fruit.class);
 		
 		verify(fruitRepo).save(fruitArgumentCaptor.capture());
 		
-		Fruits capturedFruit = fruitArgumentCaptor.getValue();
+		Fruit capturedFruit = fruitArgumentCaptor.getValue();
 		
 		assertEquals(capturedFruit.getProd_id(),expected.getProd_id());
 		assertEquals(capturedFruit.getType(),expected.getType());

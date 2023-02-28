@@ -12,7 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import com.Services.EmailService;
+import com.services.EmailService;
 
 @ExtendWith(MockitoExtension.class)
 public class EmailServiceTest {

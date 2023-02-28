@@ -1,19 +1,15 @@
 package com.controllerTests;
 
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.mockito.ArgumentMatchers.any;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,15 +17,13 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-
-import com.Model.RetailOffer;
-import com.Model.Fruits;
-import com.Model.User;
-import com.Repos.RetailOfferRepo;
-import com.Repos.FruitRepo;
-import com.Repos.UserRepo;
-import com.Services.RetailOfferService;
-import com.Services.UserService;
+import com.model.Fruit;
+import com.model.RetailOffer;
+import com.model.User;
+import com.repos.FruitRepo;
+import com.repos.RetailOfferRepo;
+import com.repos.UserRepo;
+import com.services.UserService;
 
 @SpringBootTest
 @TestPropertySource(
@@ -83,7 +77,7 @@ public class HomepageControllerTest {
 		producerUser = getMockUserByRole("producer");
 		userService.save(producerUser);
 		
-		Fruits fruit = new Fruits();
+		Fruit fruit = new Fruit();
 		fruit.setType("type");
 		fruit.setProd_id(producerUser.getId());
 		fruitRepo.save(fruit);

@@ -22,7 +22,7 @@
     <form th:action="@{/homepage/producers/filtered}" method="get">
     <h5>Filters:</h5>
     <br>
-
+	<label for="type_of_product">Search By Product Produced</label>
     <select class="form-select" aria-label="Default select example" id="type_of_product" name = "produce"  >
       <optgroup label='Fruits'>
       	<option value="any">Any Type</option>
@@ -79,10 +79,17 @@
 
 <span th:if="${user.role == 'producer'}">
   
-      <div class="card" style="margin-top: 20px!important;margin-bottom: 20px!important;" >
+      <div class="card shadow" style="margin-top: 20px!important;margin-bottom: 20px!important;" >
         <span th:if="${user.photo != null}" style="text-align: center;">
         	<span th:if="${ user.photo != ''}">
-          		<img height="350px" th:src="@{'../user-photos/'+ ${user.id} + '/' + ${user.photo}}"alt="Card image cap">
+        		<span th:if="${ find == 'yes'}">
+        			<br>
+          			<img height="350px" th:src="@{'../../user-photos/'+ ${user.id} + '/' + ${user.photo}}"alt="Card cap">
+          		</span>
+          		<span th:if="${ find == 'no'}">
+          			<br>
+          			<img height="350px" th:src="@{'../user-photos/'+ ${user.id} + '/' + ${user.photo}}"alt="Card cap">
+          		</span>
         	</span>
         </span>
         <span th:unless="${user.photo != null} and ${user.photo} != '' " style="text-align: center;">
@@ -94,16 +101,16 @@
           
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">Address: [[${user.address}]] </li>
-          <li class="list-group-item">Phone Number: [[${user.phoneNum}]]</li>
-          <li class="list-group-item">Rating: [[${user.rating}]]/5</li>
+          <li class="list-group-item"><i class="fas fa-location-dot fa-sm"></i> Address: [[${user.address}]] </li>
+          <li class="list-group-item"><i class="fas fa-phone fa-sm"></i> Phone Number: [[${user.phoneNum}]]</li>
+          <li class="list-group-item"><i class="fas fa-star fa-sm"></i> Rating: [[${user.rating}]]/5</li>
           
           <script th:inline="javascript">
             
             /*<![CDATA[*/
 
                   var fruitarr = /*[[${fruitserv.getByProdID(user.id)}]]*/ 'default';
-                  var totalfruits = "";
+                  var totalfruits = "Usually Produces: ";
                   fruitarr.forEach(element => {
                     totalfruits = totalfruits + element.type + " ";
                   });

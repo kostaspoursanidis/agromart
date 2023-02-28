@@ -11,11 +11,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
-import com.Model.CartItem;
-import com.Repos.CartItemRepo;
+import com.model.CartItem;
+import com.repos.CartItemRepo;
 
 @DataJpaTest
+@TestPropertySource(
+        locations = "classpath:test.properties"
+)
 public class CartItemRepoTest {
 	
 	@Autowired 
@@ -25,7 +29,6 @@ public class CartItemRepoTest {
 	
 	private Long buyer_id = (long) 1;
 	private Long producer_id = (long) 2;
-	private String status_sent = "sent";
 	private String status_pending = "pending";
 	
 	@BeforeEach
@@ -37,7 +40,7 @@ public class CartItemRepoTest {
 		ci1.setProducer_id(producer_id);
 		ci2.setProducer_id(producer_id);
 		ci1.setStatus(status_pending);
-		ci2.setStatus(status_sent);
+		ci2.setStatus(status_pending);
 		cartItemRepoTest.save(ci1);
 		cartItemRepoTest.save(ci2);
 		

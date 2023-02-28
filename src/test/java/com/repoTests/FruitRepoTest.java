@@ -11,18 +11,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
-import com.Model.Fruits;
-import com.Repos.FruitRepo;
+import com.model.Fruit;
+import com.repos.FruitRepo;
 
 @DataJpaTest
+@TestPropertySource(
+        locations = "classpath:test.properties"
+)
 public class FruitRepoTest {
 
 	
 	@Autowired 
 	private FruitRepo fruitRepoTest;
 	
-	private List<Fruits> expected = new ArrayList<>();
+	private List<Fruit> expected = new ArrayList<>();
 	
 	private Long producer_id = (long) 1;
 	private String type1 = "Cherry";
@@ -31,8 +35,8 @@ public class FruitRepoTest {
 	
 	@BeforeEach
 	void setUp() {
-		Fruits f1 = new Fruits();
-		Fruits f2 = new Fruits();
+		Fruit f1 = new Fruit();
+		Fruit f2 = new Fruit();
 	
 		f1.setProd_id(producer_id);
 		f1.setType(type1);
@@ -57,7 +61,7 @@ public class FruitRepoTest {
 	void deleteAllFruitsFromProducer() {
 		fruitRepoTest.deleteByProdID(producer_id);
 		
-		List<Fruits> querried = fruitRepoTest.getByProdID(producer_id);
+		List<Fruit> querried = fruitRepoTest.getByProdID(producer_id);
 		
 		assertThat(querried).isNotNull();
 		assertEquals(querried.size(),0);
@@ -65,7 +69,7 @@ public class FruitRepoTest {
 	
 	@Test
 	void getAllProducersFruits() {
-		List<Fruits> querried = fruitRepoTest.getByProdID(producer_id);
+		List<Fruit> querried = fruitRepoTest.getByProdID(producer_id);
 		
 		assertThat(querried).isNotNull();
 		assertEquals(expected.size(),querried.size());
@@ -77,7 +81,7 @@ public class FruitRepoTest {
 	
 	@Test
 	void getSpecificFruitOfProducer() {
-		Fruits querried = fruitRepoTest.hasFruit(producer_id, type1);
+		Fruit querried = fruitRepoTest.hasFruit(producer_id, type1);
 		
 		assertThat(querried).isNotNull();
 		assertEquals(expected.get(0).getProd_id(),querried.getProd_id());

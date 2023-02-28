@@ -15,9 +15,9 @@ import static org.junit.jupiter.api.Assertions.*;
 //import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import com.Model.Rating;
-import com.Repos.RatingRepo;
-import com.Services.RatingService;
+import com.model.Rating;
+import com.repos.RatingRepo;
+import com.services.RatingService;
 
 @ExtendWith(MockitoExtension.class)
 public class RatingServiceTest {

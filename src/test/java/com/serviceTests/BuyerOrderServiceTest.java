@@ -17,11 +17,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.Model.BuyerOrder;
-import com.Model.User;
-import com.Repos.BuyerOrderRepo;
-import com.Services.BuyerOrderService;
-import com.Services.UserService;
+import com.model.BuyerOrder;
+import com.model.User;
+import com.repos.BuyerOrderRepo;
+import com.services.BuyerOrderService;
+import com.services.UserService;
 
 @ExtendWith(MockitoExtension.class)
 public class BuyerOrderServiceTest {
@@ -36,7 +36,7 @@ public class BuyerOrderServiceTest {
 	private BuyerOrderService serviceUnderTest;
 
 	@Test
-	void canSaveOfferToRepoViaService() {
+	void canSaveOrderToRepoViaService() {
 		Long producers_id = 1l;
 		Long buyers_id = 2l;
 		Float approx_kilos = 4f;
@@ -59,7 +59,7 @@ public class BuyerOrderServiceTest {
 	}
 	
 	@Test
-	void canGetBuyersAllBuyerOffers() {
+	void canGetBuyersAllBuyerOrders() {
 		Long producers_id = 1l;
 		Long buyers_id = 2l;
 		Float approx_kilos = 4f;
@@ -89,7 +89,7 @@ public class BuyerOrderServiceTest {
 	}
 	
 	@Test
-	void canGetProducersAllBuyerOffers() {
+	void canGetProducersAllBuyerOrders() {
 		Long producers_id = 1l;
 		Long buyers_id = 2l;
 		Float approx_kilos = 4f;
@@ -118,7 +118,7 @@ public class BuyerOrderServiceTest {
 	}
 	
 	@Test
-	void canDeleteBuyerOfferById() {
+	void canDeleteBuyerOrderById() {
 		Long producers_id = 1l;
 		Long buyers_id = 2l;
 		Float approx_kilos = 4f;
@@ -145,7 +145,7 @@ public class BuyerOrderServiceTest {
 	}
 	
 	@Test
-	void canFindBuyerOfferById() {
+	void canFindBuyerOrderById() {
 		
 		BuyerOrder expected_value = mock(BuyerOrder.class);
 		
@@ -160,7 +160,7 @@ public class BuyerOrderServiceTest {
 	
 	
 	@Test
-	void canFindAllBuyerOffers() {
+	void canFindAllBuyerOrders() {
 		Long producers_id = 1l;
 		Long buyers_id = 2l;
 		Float approx_kilos = 4f;
@@ -187,7 +187,7 @@ public class BuyerOrderServiceTest {
 	}
 	
 	@Test
-	void canFindAllBuyerOffersByTypeOfProduct() {
+	void canFindAllBuyerOrdersByTypeOfProduct() {
 		Long producers_id = 1l;
 		Long buyers_id = 2l;
 		Float approx_kilos = 4f;

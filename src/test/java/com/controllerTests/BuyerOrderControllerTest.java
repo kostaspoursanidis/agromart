@@ -26,11 +26,11 @@ import org.springframework.util.MultiValueMap;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 
-import com.Model.BuyerOrder;
-import com.Model.User;
-import com.Repos.BuyerOrderRepo;
-import com.Repos.UserRepo;
-import com.Services.UserService;
+import com.model.BuyerOrder;
+import com.model.User;
+import com.repos.BuyerOrderRepo;
+import com.repos.UserRepo;
+import com.services.UserService;
 
 @SpringBootTest
 @TestPropertySource(
@@ -91,7 +91,7 @@ public class BuyerOrderControllerTest {
     @Order(1)
     @Test
     @WithUserDetails(value="email@email.com")
-    void canGetManageBuyerOffersPageForProducers() throws Exception {
+    void canGetManageBuyerOrdersPageForProducers() throws Exception {
     	mvc.perform(get("/BuyerOffers")).
 		andExpect(status().isOk()).
 		andExpect(model().attributeExists("user")).
@@ -104,7 +104,7 @@ public class BuyerOrderControllerTest {
     @Order(2)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canGetManageBuyerOffersPageForBuyers() throws Exception {
+    void canGetManageBuyerOdrersPageForBuyers() throws Exception {
     	mvc.perform(get("/BuyerOffers")).
 		andExpect(status().isOk()).
 		andExpect(model().attributeExists("user")).
@@ -117,7 +117,7 @@ public class BuyerOrderControllerTest {
     @Order(3)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canGetCreateBuyerOfferPage() throws Exception {
+    void canGetCreateBuyerOrderPage() throws Exception {
     	String prod_id = Long.toString(userRepo.findAll().get(0).getId());
     	
     	mvc.perform(get("/BuyerOffers/create/"+prod_id)).
@@ -129,7 +129,7 @@ public class BuyerOrderControllerTest {
     @Order(4)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canCreateBuyerOfferWithType() throws Exception {
+    void canCreateBuyerOrderWithType() throws Exception {
     	String prod_id = Long.toString(userRepo.findAll().get(0).getId());
     	
     	
@@ -152,7 +152,7 @@ public class BuyerOrderControllerTest {
     @Order(5)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canCreateBuyerOfferWithTypeOther() throws Exception {
+    void canCreateBuyerOrderWithTypeOther() throws Exception {
     	String prod_id = Long.toString(userRepo.findAll().get(0).getId());
     	
     	
@@ -174,7 +174,7 @@ public class BuyerOrderControllerTest {
     @Order(6)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canGetEditBuyerOfferPage() throws Exception {
+    void canGetEditBuyerOrderPage() throws Exception {
     	String bo_id = Long.toString(boRepo.findAll().get(0).getId());
     	
     	mvc.perform(get("/BuyerOffers/edit/"+bo_id)).
@@ -186,7 +186,7 @@ public class BuyerOrderControllerTest {
     @Order(7)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canEditBuyerOffer() throws Exception {
+    void canEditBuyerOrder() throws Exception {
     	String bo_id = Long.toString(boRepo.findAll().get(0).getId());
     	String prod_id = Long.toString(userRepo.findAll().get(0).getId());
     	
@@ -214,7 +214,7 @@ public class BuyerOrderControllerTest {
     @Order(8)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canAcceptBuyerOfferAsProducer() throws Exception {
+    void canAcceptBuyerOrderAsProducer() throws Exception {
     	String bo_id = Long.toString(boRepo.findAll().get(0).getId());
     	
     	mvc.perform(get("/BuyerOffers/accept/"+bo_id)).
@@ -227,7 +227,7 @@ public class BuyerOrderControllerTest {
     @Order(9)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canGetDeclineBuyerOfferForm() throws Exception {
+    void canGetDeclineBuyerOrderForm() throws Exception {
     	BuyerOrder temp_bo = new BuyerOrder();
     	boRepo.save(temp_bo);
     	String bo_id = Long.toString(temp_bo.getId());
@@ -243,13 +243,15 @@ public class BuyerOrderControllerTest {
     @Order(10)
     @Test
     @WithUserDetails(value="buyer@email.com")
-    void canDeclineBuyerOfferAsProducer() throws Exception {
+    void canDeclineBuyerOrderAsProducer() throws Exception {
     	BuyerOrder temp_bo = new BuyerOrder();
+    	temp_bo.setBuyer_id(buyerUser.getId());
     	boRepo.save(temp_bo);
-    	String bo_id = Long.toString(temp_bo.getId());
+    	String bo_id = Long.toString(boRepo.findAll().get(1).getId());
     	
     	MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
 	    multiValueMap.add("id", bo_id);
+	    multiValueMap.add("buyer_id", "1");
 
     	mvc.perform(post("/BuyerOffers/decline/save").params(multiValueMap).param("reason", "some_reason")).
 		andExpect(status().isFound()).

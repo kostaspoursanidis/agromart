@@ -16,11 +16,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.Model.RetailOffer;
-import com.Model.User;
-import com.Repos.RetailOfferRepo;
-import com.Services.RetailOfferService;
-import com.Services.UserService;
+import com.model.RetailOffer;
+import com.model.User;
+import com.repos.RetailOfferRepo;
+import com.services.RetailOfferService;
+import com.services.UserService;
 
 @ExtendWith(MockitoExtension.class)
 public class RetailOfferServiceTest {
@@ -35,7 +35,7 @@ public class RetailOfferServiceTest {
 	private RetailOfferService serviceUnderTest;
 	
 	@Test
-	void canSaveToCivilOffer() {
+	void canSaveRetailOffer() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -62,7 +62,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetCurrentUsersCivilOffers() {
+	void canGetCurrentUsersRetailOffers() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -90,7 +90,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canDeleteSpecificCivilOffer() {
+	void canDeleteSpecificRetailOffer() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -115,7 +115,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetSpecificCivilOffer() {
+	void canGetSpecificRetailOffer() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -134,7 +134,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetAllCivilOffers() {
+	void canGetAllRetailOffers() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -156,7 +156,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetSpecificCivilOfferAndReturnProducersId() {
+	void canGetSpecificRetailOfferAndReturnProducersId() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -175,7 +175,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetCivilOffersByType() {
+	void canGetRetailOffersByType() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -201,7 +201,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetCivilOffersByTypeAndSortingIsAscending() {
+	void canGetRetailOffersByTypeAndSortingIsAscending() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -249,7 +249,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetCivilOffersByTypeAndSortingIsDescending() {
+	void canGetRetailOffersByTypeAndSortingIsDescending() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -295,7 +295,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetCivilOffersByTypeAndSortingIsAnythingElseWillReturnDescending() {
+	void canGetRetailOffersByTypeAndSortingIsAnythingElseWillReturnDescending() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -337,7 +337,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetCivilOffersByTypeAndSortingIsAscendingAndMaxPrice() {
+	void canGetRetailOffersByTypeAndSortingIsAscendingAndMaxPrice() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -362,7 +362,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetCivilOffersByTypeAndSortingIsAnythingAndMaxPriceWillReturnDescending() {
+	void canGetRetailOffersByTypeAndSortingIsAnythingAndMaxPriceWillReturnDescending() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";
@@ -387,7 +387,7 @@ public class RetailOfferServiceTest {
 	}
 	
 	@Test
-	void canGetCivilOffersByTypeAndMaxPrice() {
+	void canGetRetailOffersByTypeAndMaxPrice() {
 		Long producers_id = 1l;
 		Long co_id = 1l;
 		String type_of_product = "type";

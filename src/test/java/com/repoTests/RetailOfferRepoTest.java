@@ -8,15 +8,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.TestPropertySource;
 
-import com.Model.RetailOffer;
-import com.Repos.RetailOfferRepo;
+import com.model.RetailOffer;
+import com.repos.RetailOfferRepo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest
+@TestPropertySource(
+        locations = "classpath:test.properties"
+)
 public class RetailOfferRepoTest {
 	
 	@Autowired
@@ -59,7 +63,7 @@ public class RetailOfferRepoTest {
 	}
 		
 	@Test
-	void getCOByProdID() {
+	void getROByProdID() {
 		
 		List<RetailOffer> querried = coRepoTest.getCurrentUserCO(producer_id);
 		
@@ -70,7 +74,7 @@ public class RetailOfferRepoTest {
 	}
 	
 	@Test
-	void getCOFilteredByProdType() {
+	void getROFilteredByProdType() {
 		
 		List<RetailOffer> querried = coRepoTest.getFilteredCO(type1);
 		
@@ -81,7 +85,7 @@ public class RetailOfferRepoTest {
 	}
 	
 	@Test
-	void getCOFilteredByProdTypeAndMaxprice() {
+	void getROFilteredByProdTypeAndMaxprice() {
 		
 		List<RetailOffer> querried = coRepoTest.getFilteredCOMax(type1,maxPricePerKg);
 		
@@ -93,7 +97,7 @@ public class RetailOfferRepoTest {
 	}
 	
 	@Test
-	void getCOFilteredByProdTypeAscendingOrder() {
+	void getROFilteredByProdTypeAscendingOrder() {
 		
 		List<RetailOffer> querried = coRepoTest.getFilteredCOAsc(type1);
 		
@@ -105,7 +109,7 @@ public class RetailOfferRepoTest {
 	}
 	
 	@Test
-	void getCOFilteredByProdTypeDescendingOrder() {
+	void getROFilteredByProdTypeDescendingOrder() {
 		
 		List<RetailOffer> querried = coRepoTest.getFilteredCODesc(type2);
 		
@@ -117,7 +121,7 @@ public class RetailOfferRepoTest {
 	}
 	
 	@Test
-	void getCOFilteredByProdTypeAndAscendingOrderAndMaxprice() {
+	void getROFilteredByProdTypeAndAscendingOrderAndMaxprice() {
 		
 		List<RetailOffer> querried = coRepoTest.getFilteredCOMaxAsc(type1,maxPricePerKg);
 		
@@ -129,7 +133,7 @@ public class RetailOfferRepoTest {
 	}
 	
 	@Test
-	void getCOFilteredByProdTypeAndDescendingOrderAndMaxprice() {
+	void getROFilteredByProdTypeAndDescendingOrderAndMaxprice() {
 		
 		List<RetailOffer> querried = coRepoTest.getFilteredCOMaxDesc(type1,maxPricePerKg);
 		
@@ -140,7 +144,7 @@ public class RetailOfferRepoTest {
 	}
 	
 	@Test
-	void getCOFilteredByProdTypeAndDescendingOrderAndMaxpriceButTypeNotExists() {
+	void getROFilteredByProdTypeAndDescendingOrderAndMaxpriceButTypeNotExists() {
 		
 		List<RetailOffer> querried = coRepoTest.getFilteredCOMaxDesc(type_not_exists,maxPricePerKg);
 		
@@ -149,7 +153,7 @@ public class RetailOfferRepoTest {
 	}	
 	
 	@Test
-	void getCOByProdIDButIDNotExists() {
+	void getROByProdIDButIDNotExists() {
 		
 		List<RetailOffer> querried = coRepoTest.getCurrentUserCO(producer_not_exists);
 		

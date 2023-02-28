@@ -15,12 +15,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
-import com.Model.CartItem;
-import com.Model.User;
-import com.Repos.CartItemRepo;
-import com.Services.CartItemService;
-import com.Services.UserService;
+import com.model.CartItem;
+import com.model.User;
+import com.repos.CartItemRepo;
+import com.services.CartItemService;
+import com.services.UserService;
 
 @ExtendWith(MockitoExtension.class)
 public class CartItemServiceTest {
@@ -87,7 +86,7 @@ public class CartItemServiceTest {
 	}
 	
 	@Test
-	void canGetAllProducersClaimedRetailOffers() {
+	void canGetAllProducersClaimedRetailOrders() {
 		Long producers_id = 1l;
 		Long buyers_id = 2l;
 		Float approx_kilos = 4f;

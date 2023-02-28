@@ -15,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.Model.Followers;
-import com.Repos.FollowerRepo;
-import com.Services.FollowerService;
+import com.model.Follower;
+import com.repos.FollowerRepo;
+import com.services.FollowerService;
 
 @ExtendWith(MockitoExtension.class)
 public class FollowerServiceTest {
@@ -33,16 +33,16 @@ public class FollowerServiceTest {
 		Long followed_user_id = 1l;
 		Long followee_id = 2l;
 		
-		Followers expected = new Followers();
+		Follower expected = new Follower();
 		
 		expected.setFollow_user_id(followed_user_id);
 		expected.setFollowee_id(followee_id);
 		
 		serviceUnderTest.deleteFollower(expected);
 		
-		ArgumentCaptor<Followers> followerArgumentCaptor = ArgumentCaptor.forClass(Followers.class);
+		ArgumentCaptor<Follower> followerArgumentCaptor = ArgumentCaptor.forClass(Follower.class);
 		verify(followerRepo).delete(followerArgumentCaptor.capture());
-		Followers capturedFollower = followerArgumentCaptor.getValue();
+		Follower capturedFollower = followerArgumentCaptor.getValue();
 		
 		assertEquals(capturedFollower.getFollowedUserID(),expected.getFollowedUserID());
 		
@@ -54,14 +54,14 @@ public class FollowerServiceTest {
 		Long followed_user_id = 1l;
 		Long followee_id = 2l;
 		
-		Followers expected = new Followers();
+		Follower expected = new Follower();
 		
 		expected.setFollow_user_id(followed_user_id);
 		expected.setFollowee_id(followee_id);
 		
 		Mockito.when(followerRepo.getFollower(followed_user_id, followee_id)).thenReturn(expected);
 		
-		Followers returned  = serviceUnderTest.getFollower(followed_user_id,followee_id);
+		Follower returned  = serviceUnderTest.getFollower(followed_user_id,followee_id);
 		
 		assertEquals(returned.getFollowedUserID(),expected.getFollowedUserID());
 		
@@ -73,17 +73,17 @@ public class FollowerServiceTest {
 		Long followed_user_id = 1l;
 		Long followee_id = 2l;
 		
-		Followers expected = new Followers();
+		Follower expected = new Follower();
 		
 		expected.setFollow_user_id(followed_user_id);
 		expected.setFollowee_id(followee_id);
 		
-		List<Followers> expected_list = new ArrayList<>();
+		List<Follower> expected_list = new ArrayList<>();
 		expected_list.add(expected);
 		
 		Mockito.when(followerRepo.getAllFollowers(followed_user_id)).thenReturn(expected_list);
 		
-		List<Followers> returned  = serviceUnderTest.getAllFollowers(followed_user_id);
+		List<Follower> returned  = serviceUnderTest.getAllFollowers(followed_user_id);
 		
 		assertEquals(returned.get(0).getFollowedUserID(),expected_list.get(0).getFollowedUserID());
 		assertEquals(returned.get(0).getFolloweeID(),expected_list.get(0).getFolloweeID());
@@ -96,16 +96,16 @@ public class FollowerServiceTest {
 		Long followed_user_id = 1l;
 		Long followee_id = 2l;
 		
-		Followers expected = new Followers();
+		Follower expected = new Follower();
 		
 		expected.setFollow_user_id(followed_user_id);
 		expected.setFollowee_id(followee_id);
 		
 		serviceUnderTest.saveFollower(expected);
 		
-		ArgumentCaptor<Followers> followerArgumentCaptor = ArgumentCaptor.forClass(Followers.class);
+		ArgumentCaptor<Follower> followerArgumentCaptor = ArgumentCaptor.forClass(Follower.class);
 		verify(followerRepo).save(followerArgumentCaptor.capture());
-		Followers capturedFollower = followerArgumentCaptor.getValue();
+		Follower capturedFollower = followerArgumentCaptor.getValue();
 		
 		assertEquals(capturedFollower.getFollowedUserID(),expected.getFollowedUserID());
 		
@@ -117,17 +117,17 @@ public class FollowerServiceTest {
 		Long followed_user_id = 1l;
 		Long followee_id = 2l;
 		
-		Followers expected = new Followers();
+		Follower expected = new Follower();
 		
 		expected.setFollow_user_id(followed_user_id);
 		expected.setFollowee_id(followee_id);
 		
-		List<Followers> expected_list = new ArrayList<>();
+		List<Follower> expected_list = new ArrayList<>();
 		expected_list.add(expected);
 		
 		Mockito.when(followerRepo.getAllFollowees(followee_id)).thenReturn(expected_list);
 		
-		List<Followers> returned  = serviceUnderTest.getAllFollowees(followee_id);
+		List<Follower> returned  = serviceUnderTest.getAllFollowees(followee_id);
 		
 		assertEquals(returned.get(0).getFollowedUserID(),expected_list.get(0).getFollowedUserID());
 		assertEquals(returned.get(0).getFolloweeID(),expected_list.get(0).getFolloweeID());

@@ -65,7 +65,7 @@
 	                        	<a class="btn btn-success" th:href="@{'/CivilOffers/completed/'+${cItem.id}}">Complete</a> 
 	                        </span>
 	                        <span th:if="${cItem.status} == completed">
-	                        	<a>None.</a> 
+	                        	<a class="btn btn-warning" th:href="@{'/profile/rate/'+${cItem.buyer_id}}">Rate User</a>
 	                        </span>
                         </td>
                         

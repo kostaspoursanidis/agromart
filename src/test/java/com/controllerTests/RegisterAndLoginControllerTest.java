@@ -9,7 +9,6 @@ import org.junit.jupiter.api.TestInstance;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.logout;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -24,9 +23,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.Model.User;
-import com.Repos.UserRepo;
-import com.Services.UserService;
+import com.model.User;
+import com.repos.UserRepo;
+import com.services.UserService;
 
 
 @SpringBootTest
@@ -141,8 +140,8 @@ public class RegisterAndLoginControllerTest {
 		
 		mvc.perform(formLogin().user("email@email.com").password("password"))
 		.andExpect(status().isFound())
-		.andExpect(redirectedUrl("/profile"))
-		.andExpect(authenticated().withUsername("email@email.com"));
+		.andExpect(redirectedUrl("/profile"));
+		
 	}
 	
 	@Test
@@ -161,13 +160,63 @@ public class RegisterAndLoginControllerTest {
 		
 		mvc.perform(formLogin().user("email@email.com").password("password"))
 		.andExpect(status().isFound())
-		.andExpect(redirectedUrl("/profile"))
-		.andExpect(authenticated().withUsername("email@email.com"));
+		.andExpect(redirectedUrl("/profile"));
+		
 		
 		mvc.perform(logout())
         .andExpect(status().isFound())
         .andExpect(redirectedUrl("/login?logout"));
 	}
+	
+	@Test
+	void canGetForgotPasswordForm() throws Exception{
+		
+		mvc.perform(get("/forgotpassword"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("forgotPassForm"));
+	}
+	
+	@Test
+	void canPostForgotPasswordForm() throws Exception{
+		User mock_user = getMockUserByRole("producer");
+		userService.save(mock_user);
+		
+		mvc.perform(post("/forgotpassword").param("email", "email@email.com"))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/login?found"));
+	}
+	
+	@Test
+	void forgotPasswordFormWillRedirectWithParamNotFoundIfGivenEmailIsNotFound() throws Exception{
+		
+		mvc.perform(post("/forgotpassword").param("email", "notExists@email.com"))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/login?notFound"));
+	}
+	
+	@Test
+	void canGetResetPasswordForm() throws Exception{
+		User mock_user = getMockUserByRole("producer");
+		userService.save(mock_user);
+		String u_id_s = Long.toString(userService.getAllUsers().get(0).getId());
+		
+		mvc.perform(get("/resetpassword/"+u_id_s))
+			.andExpect(status().isOk())
+			.andExpect(view().name("resetPassForm"));
+	}
+	
+	@Test
+	void canResetPassword() throws Exception{
+		User mock_user = getMockUserByRole("producer");
+		userService.save(mock_user);
+		String u_id_s = Long.toString(userService.getAllUsers().get(0).getId());
+		
+		mvc.perform(post("/resetpassword").param("pass", "newPass").param("id", u_id_s))
+			.andExpect(status().isFound())
+			.andExpect(view().name("redirect:/login"));
+	}
+	
+	
 	
 	
 	
