@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" 
+	rel="stylesheet" 
+	integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" 
+  crossorigin="anonymous">
+  
+  <!--Bootstrap Js and Popper-->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+
+
+
+  <title>My Cart</title>
+
+</head>
+
+<body>
+
+    <div th:replace="header :: header" ></div>
+
+    <h2 style="text-align: center;">Your Cart</h2> 
+
+    <div  style="margin-left: 10px;margin-right: 10px;">
+        <table class="table table-bordered table-dark">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Amount(in Kilos)</th>
+                    <th>Type</th>
+                    <th>Price Per Kilo</th>
+                    <th>Producer's Profile</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                
+                <th:block th:each="cItem , iter : ${userCIs} ">
+                    <tr class="table-light">
+                        <td>[[${cItem.id}]]</td>
+                        <td>[[${cItem.kilos_wanted}]] kilos</td>
+                        <td>[[${cOffers[__${iter.index}__].type_of_product}]]</td>
+                        <td>[[${cOffers[__${iter.index}__].price_per_kg}]] Euro</td>
+                        <td> 
+                            <span sec:authorize="hasRole('ROLE_PRODUCER')">
+                                <a class="btn btn-info" th:href="@{'/profile/'+${cItem.buyer_id}}">[[${cItem.buyer_name}]]</a> 
+                            </span>
+                            <span sec:authorize="hasRole('ROLE_CIVILIAN')">
+                                <a class="btn btn-info" th:href="@{'/profile/'+${cItem.producer_id}}">Producer's profile</a> 
+                            </span>
+                        
+                        </td>
+
+                        <td>
+                            <!-- <span th:if="${cItem.state == null}">
+                            <span th:if="${user.role == 'producer'}">
+                                <a class="btn btn-success" role="button" th:href="@{'/BuyerOffers/accept/'+ ${cItem.id}}">Accept</a>
+                                <a class="btn btn-danger" role="button" th:href="@{'/BuyerOffers/decline/'+ ${cItem.id}}">Decline</a>
+                            </span>
+                            <span th:unless="${user.role == 'producer'}">-->
+                                <a class="btn btn-primary" role="button" th:href="@{'/cart/edit/'+ ${cItem.id}}">Edit</a>
+                                <a class="btn btn-danger" role="button" th:href="@{'/cart/delete/'+ ${cItem.id}}">Delete</a>
+<!--                             </span> -->
+<!--                             </span> -->
+<!--                             <span th:unless="${cItem.state ==  null}"> -->
+<!--                                 <a> Please contact the other party about the offer </a> -->
+<!--                             </span> -->
+                        </td>
+                    </tr>
+                </th:block>
+            </tbody>
+        </table>
+
+    </div>
+    
+    <span th:if="${!userCIs.empty}">
+  	    <div style="text-align: left;margin-left:20px">
+  	    	<h5>Total Price: [[${totalPrice}]] Euro</h5> 	    
+  	    </div>
+  	    <br>
+  	    <div style="text-align: center">
+	    	<a  class="btn btn-primary btn-lg" th:href="@{'/cart/checkout'}">Place Order</a>
+		</div>
+	</span>
+	<span th:unless="${!userCIs.empty}">
+  	    <div style="text-align: center">
+	    	<h3>Your Cart Is Empty</h3>
+		</div>
+	</span>
+	
+</body>
+</html>
